@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para ti...</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@300;400&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            width: 320px;
+            height: 250px;
+            perspective: 1000px;
+            margin-top: 50px; /* Da un poco de espacio extra arriba para cuando la carta suba */
+        }
+
+        .envelope {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #e06d79;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 3;
+            transition: transform 0.4s ease;
+        }
+
+        .envelope:hover {
+            transform: translateY(-5px);
+        }
+
+        .envelope::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            border-left: 160px solid #f38a95;
+            border-right: 160px solid #f38a95;
+            border-top: 125px solid transparent;
+            border-bottom: 125px solid #f07b88;
+            border-radius: 0 0 10px 10px;
+            z-index: 4;
+        }
+
+        .flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-top: 150px solid #e06d79;
+            transform-origin: top;
+            transition: transform 0.6s ease-in-out;
+            z-index: 5;
+        }
+
+        /* Ajustes en la Carta */
+        .letter {
+            position: absolute;
+            bottom: 0;
+            left: 5%;
+            width: 90%;
+            height: 420px; /* Tarjeta más alta para que quepa el texto */
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 25px 20px;
+            text-align: center;
+            transition: transform 0.8s ease-in-out 0.2s, box-shadow 0.4s ease, z-index 0.2s ease 0.4s;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            overflow-y: auto; /* Permite hacer scroll si el texto es muy largo */
+        }
+
+        /* Ocultar barra de scroll para que se vea más limpio */
+        .letter::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        .flowers {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            color: #d84555;
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 0.95rem;
+            color: #444;
+            line-height: 1.6;
+            text-align: justify;
+        }
+
+        .instruction {
+            position: absolute;
+            bottom: -40px;
+            width: 100%;
+            text-align: center;
+            color: #fff;
+            font-weight: 300;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            z-index: 10;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        /* Animación corregida */
+        .open .flap {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        .open .letter {
+            transform: translateY(-260px); /* Sube mucho más para despegarse del sobre */
+            z-index: 6; /* Pasa al frente del sobre una vez abierta */
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .open ~ .instruction {
+            opacity: 0;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="envelope" id="envelope" onclick="toggleLetter()">
+            <div class="flap"></div>
+            <div class="letter">
+                <div class="flowers">🌻🌷🌻🌷🌻</div>
+                <h1>Mi niña hermosa</h1>
+                <p>
+                    Aún recuerdo el día que te conocí, como si el tiempo se hubiera detenido. 
+                    Quería decirte lo increíblemente bonita que eres, pero más allá de eso, 
+                    lo mucho que he llegado a quererte exactamente tal y como eres. 
+                    Con cada detalle, cada sonrisa y cada defecto. Eres perfecta para mí.
+                </p>
+            </div>
+        </div>
+        <div class="instruction" id="text-inst">Toca el sobre para abrir 🤍</div>
+    </div>
+
+    <script>
+        function toggleLetter() {
+            const envelope = document.getElementById('envelope');
+            envelope.classList.toggle('open');
+            
+            const textInst = document.getElementById('text-inst');
+            if(envelope.classList.contains('open')) {
+                textInst.style.opacity = '0';
+            } else {
+                textInst.style.opacity = '1';
+            }
+        }
+    </script>
+
+</body>
+</html>
