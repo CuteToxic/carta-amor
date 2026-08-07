@@ -4,198 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Para ti...</title>
-    <style>
-        /* AQUÍ EMPIEZA EL CSS */
-        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@300;400&display=swap');
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            /* Fondo suave */
-            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-            font-family: 'Poppins', sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            overflow: hidden;
-        }
-
-        .wrapper {
-            position: relative;
-            margin-top: 120px; /* Da espacio arriba para cuando la carta salga */
-        }
-
-        /* El Sobre (Ahora más ancho y horizontal) */
-        .envelope {
-            position: relative;
-            width: 350px;
-            height: 220px;
-            background: #d85a66;
-            border-radius: 5px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            cursor: pointer;
-        }
-
-        /* Solapa que se abre */
-        .flap {
-            position: absolute;
-            top: 0; left: 0;
-            width: 0; height: 0;
-            /* Las medidas de los bordes se adaptan al nuevo ancho */
-            border-left: 175px solid transparent;
-            border-right: 175px solid transparent;
-            border-top: 120px solid #e06d79;
-            transform-origin: top;
-            transition: transform 0.6s ease-in-out;
-            z-index: 5;
-        }
-
-        /* Frente del sobre */
-        .envelope-front {
-            position: absolute;
-            bottom: 0; left: 0;
-            width: 0; height: 0;
-            border-left: 175px solid #e97a86;
-            border-right: 175px solid #e97a86;
-            border-top: 100px solid transparent;
-            border-bottom: 120px solid #d85a66;
-            z-index: 4;
-            pointer-events: none; /* Permite que el click pase al sobre */
-            border-radius: 0 0 5px 5px;
-        }
-
-        /* La Carta (Con nuevas proporciones para que el texto respire) */
-        .letter {
-            position: absolute;
-            bottom: 10px;
-            left: 15px;
-            width: 320px;
-            height: 380px;
-            background: #fff;
-            border-radius: 8px;
-            padding: 30px 20px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.8s ease-in-out 0.1s, z-index 0.2s 0.4s;
-            z-index: 2;
-            overflow-y: auto; /* Permite scroll si el texto es muy largo */
-        }
-
-        .letter::-webkit-scrollbar { width: 0; }
-
-        .letter h1 {
-            font-family: 'Dancing Script', cursive;
-            color: #d84555;
-            font-size: 2.2rem;
-            margin-bottom: 15px;
-        }
-
-        .letter p {
-            font-size: 0.9rem;
-            color: #444;
-            line-height: 1.6;
-            text-align: justify;
-        }
-
-        /* EL RAMO DE FLORES (Independiente de la carta) */
-        .bouquet {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 3;
-            display: flex;
-            transition: transform 0.8s ease-in-out;
-            pointer-events: none;
-        }
-
-        /* Diseño de cada flor en el ramo */
-        .flower {
-            font-size: 2.5rem;
-            transform-origin: bottom center;
-        }
-        .flower:nth-child(1) { transform: rotate(-30deg) translateY(10px); }
-        .flower:nth-child(2) { transform: rotate(-15deg) translateY(0); }
-        .flower:nth-child(3) { transform: scale(1.2) translateY(-10px); z-index: 10; }
-        .flower:nth-child(4) { transform: rotate(15deg) translateY(0); }
-        .flower:nth-child(5) { transform: rotate(30deg) translateY(10px); }
-
-
-        /* ANIMACIONES: Qué pasa cuando se abre */
-        
-        /* 1. La solapa gira hacia arriba */
-        .wrapper.open .flap {
-            transform: rotateX(180deg);
-            z-index: 1;
-        }
-
-        /* 2. La carta sale hacia arriba */
-        .wrapper.open .letter {
-            transform: translateY(-220px);
-            z-index: 6;
-        }
-
-        /* 3. Las flores salen y se colocan a un LADO de la carta (arriba a la izquierda) */
-        .wrapper.open .bouquet {
-            transform: translate(-130px, -220px) scale(1.1) rotate(-15deg);
-            z-index: 7;
-        }
-
-        /* Texto de ayuda */
-        .instruction {
-            text-align: center;
-            margin-top: 40px;
-            color: #777;
-            font-size: 0.9rem;
-            transition: opacity 0.3s;
-        }
-        .wrapper.open ~ .instruction {
-            opacity: 0;
-        }
-    </style>
+    <!-- Aquí conectamos el CSS -->
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div class="wrapper" id="wrapper" onclick="toggleAnimacion()">
-        <div class="envelope">
-            <div class="flap"></div>
+    <div class="container">
+        <div class="envelope-wrapper" id="envelope">
             
-            <!-- El ramo que saldrá de lado -->
-            <div class="bouquet">
-                <div class="flower">🌻</div>
-                <div class="flower">🌷</div>
-                <div class="flower">🌻</div>
-                <div class="flower">🌷</div>
-                <div class="flower">🌻</div>
+            <!-- Parte trasera del sobre -->
+            <div class="env-back"></div>
+            
+            <!-- Solapa que se abre -->
+            <div class="env-flap"></div>
+            
+            <!-- Contenido (Carta y Flores juntos para que suban al mismo tiempo) -->
+            <div class="content">
+                <div class="bouquet">
+                    <span class="f1">🌻</span>
+                    <span class="f2">🌷</span>
+                    <span class="f3">🌻</span>
+                    <span class="f4">🌷</span>
+                    <span class="f5">🌻</span>
+                </div>
+                <div class="letter">
+                    <h1>Mi niña hermosa</h1>
+                    <p>
+                        Aún recuerdo el día que te conocí, como si el tiempo se hubiera detenido. 
+                        Quería decirte lo increíblemente bonita que eres, pero más allá de eso, 
+                        lo mucho que he llegado a quererte exactamente tal y como eres. 
+                        Con cada detalle, cada sonrisa y cada defecto. Eres perfecta para mí.
+                    </p>
+                </div>
             </div>
 
-            <!-- La carta -->
-            <div class="letter">
-                <h1>Mi niña hermosa</h1>
-                <p>
-                    Aún recuerdo el día que te conocí, como si el tiempo se hubiera detenido. 
-                    Quería decirte lo increíblemente bonita que eres, pero más allá de eso, 
-                    lo mucho que he llegado a quererte exactamente tal y como eres. 
-                    Con cada detalle, cada sonrisa y cada defecto. Eres perfecta para mí.
-                </p>
-            </div>
+            <!-- Frente del sobre (El "bolsillo") -->
+            <div class="env-front"></div>
             
-            <div class="envelope-front"></div>
         </div>
+        <div class="instruction">Toca el sobre para abrir 🤍</div>
     </div>
 
-    <div class="instruction">Toca el sobre para abrir 🤍</div>
-
-    <script>
-        /* AQUÍ EMPIEZA EL JAVASCRIPT */
-        /* Esta pequeña función controla abrir y cerrar todo con un solo tap */
-        function toggleAnimacion() {
-            const wrapper = document.getElementById('wrapper');
-            wrapper.classList.toggle('open');
-        }
-    </script>
-
+    <!-- Aquí conectamos el JavaScript -->
+    <script src="script.js"></script>
 </body>
 </html>
